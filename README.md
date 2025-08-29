@@ -13,8 +13,8 @@ Este projeto é um sistema de notificações distribuído que utiliza RabbitMQ p
 ### 1. Clone o repositório
 
 ```bash
-git clone <url-do-repositorio>
-cd <nome-do-repositorio>
+git clone git@github.com:VitorMeloDS/notification-app.git
+cd notification-app
 ```
 
 ### 2. Executar com Docker Compose (Recomendado)
