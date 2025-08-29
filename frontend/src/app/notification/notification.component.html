@@ -1,0 +1,67 @@
+<div class="container">
+  <h1>Sistema de Notificações</h1>
+
+  <!-- Formulário de envio -->
+  <div class="send-section">
+    <h2>Enviar Notificação</h2>
+
+    <div class="error-message" *ngIf="errorMessage">
+      {{ errorMessage }}
+    </div>
+
+    <form (ngSubmit)="sendNotification()" #notificacaoForm="ngForm">
+      <div class="form-group">
+        <label for="conteudoMensagem">Mensagem:</label>
+        <textarea id="conteudoMensagem" name="conteudoMensagem" [(ngModel)]="conteudoMensagem"
+          placeholder="Digite sua mensagem aqui..." rows="3" required maxlength="500" [disabled]="isLoading"></textarea>
+        <small class="char-count">{{ conteudoMensagem.length }}/500 caracteres</small>
+      </div>
+
+      <button type="submit" [disabled]="!conteudoMensagem.trim() || isLoading" class="submit-btn">
+        {{ isLoading ? 'Enviando...' : 'Enviar Notificação' }}
+      </button>
+    </form>
+  </div>
+
+  <!-- Lista de notificações -->
+  <div class="notifications-section">
+    <div class="section-header">
+      <h2>Histórico de Notificações ({{ notifications.length }})</h2>
+      <button (click)="loadExistingNotifications()" class="refresh-btn">
+        Atualizar
+      </button>
+    </div>
+
+    <div *ngIf="notifications.length === 0" class="empty-state">
+      <p>Nenhuma notificação enviada ainda...</p>
+    </div>
+
+    <div class="notifications-list">
+      <div *ngFor="let notificacao of notifications; trackBy: trackByMensagemId"
+        [class]="'notification-card ' + getStatusClass(notificacao.status)">
+        <!-- <div class="notification-header">
+          <span class="status-icon">{{ getStatusIcon(notificacao.status) }}</span>
+          <span class="status-text">{{ notificacao.status }}</span>
+          <span class="timestamp">{{ formatTimestamp(notificacao.timestamp) }}</span>
+          <button *ngIf="['AGUARDANDO_PROCESSAMENTO','FALHA_PROCESSAMENTO'].includes(notificacao.status)"
+            (click)="forceUpdateStatus(notificacao.mensagemId)" class="update-btn" title="Forçar atualização de status">
+          </button>
+        </div> -->
+
+        <div class="notification-content">
+          <p class="message-id">
+            <strong>ID:</strong> {{ notificacao.mensagemId }}
+          </p>
+
+          <p class="message-content" *ngIf="notificacao.conteudoMensagem">
+            <strong>Mensagem:</strong> {{ notificacao.conteudoMensagem }}
+          </p>
+
+          <p class="error-message" *ngIf="notificacao.error">
+            <strong>Erro:</strong> {{ notificacao.error }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
