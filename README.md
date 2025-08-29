@@ -21,16 +21,16 @@ cd notification-app
 
 ```bash
 # Executar a aplicação completa
-docker-compose up -d
+docker compose up -d
 
 # Executar e ver logs em tempo real
-docker-compose up
+docker compose up
 
 # Parar a aplicação
-docker-compose down
+docker compose down
 
 # Parar e remover volumes
-docker-compose down -v
+docker compose down -v
 ```
 
 ### 3. Executar em modo desenvolvimento
