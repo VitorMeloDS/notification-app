@@ -9,6 +9,12 @@ services:
     environment:
       RABBITMQ_DEFAULT_USER: guest
       RABBITMQ_DEFAULT_PASS: guest
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "check_port_connectivity"]
+      interval: 5s
+      timeout: 10s
+      retries: 30
+      start_period: 10s
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq
     networks:
@@ -26,6 +32,10 @@ services:
       - /app/node_modules
     environment:
       RABBITMQ_URI: amqp://guest:guest@rabbitmq:5672
+      WAIT_FOR_RABBITMQ: "true"
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
     networks:
       - notification-network
 
